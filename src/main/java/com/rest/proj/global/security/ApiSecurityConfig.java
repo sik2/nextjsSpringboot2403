@@ -18,6 +18,7 @@ public class ApiSecurityConfig {
                 .authorizeRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/api/*/articles").permitAll()
+                                .requestMatchers("/api/*/articles/*").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .csrf(
