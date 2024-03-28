@@ -2,6 +2,7 @@ package com.rest.proj.domain.article.controller;
 
 import com.rest.proj.domain.article.entity.Article;
 import com.rest.proj.domain.article.service.ArticleService;
+import com.rest.proj.global.RsData.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,9 @@ import java.util.List;
 public class ApiV1ArticleController {
     private final ArticleService articleService;
     @GetMapping("")
-    public List<Article> getArticles() {
+    public RsData<List<Article>> getArticles() {
         List<Article> articles = this.articleService.getList();
-        return articles;
+        return RsData.of("S-1", "성공", articles);
     }
 
     @GetMapping("/{id}")
