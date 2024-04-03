@@ -53,4 +53,13 @@ public class ArticleService {
                 article
         );
     }
+    public RsData<Article> deleteById(Long id) {
+        articleRepository.deleteById(id);
+
+        return RsData.of(
+                "S-5",
+                "%d번 게시물이 삭제 되었습니다.".formatted(id),
+                null
+        );
+    }
 }
