@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,12 +60,12 @@ public class ApiV1ArticleController {
 
     @AllArgsConstructor
     @Getter
-    public static class WriteResponce {
+    public static class WriteResponse {
         private final Article article;
     }
 
     @PostMapping("")
-    public RsData<WriteResponce> write (@Valid @RequestBody WriteRequest writeRequest) {
+    public RsData<WriteResponse> write (@Valid @RequestBody WriteRequest writeRequest) {
 
         RsData<Article> writeRs = this.articleService.create(writeRequest.getSubject(), writeRequest.getContent());
 
@@ -73,8 +74,44 @@ public class ApiV1ArticleController {
         return RsData.of(
                 writeRs.getResultCode(),
                 writeRs.getMsg(),
-                new WriteResponce(writeRs.getData())
+                new WriteResponse(writeRs.getData())
         );
+    }
+
+
+    @Data
+    public static class ModifyRequest {
+        @NotBlank
+        private String subject;
+        @NotBlank
+        private String content;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ModifyResponse {
+        private final Article article;
+    }
+
+    @PatchMapping("/{id}")
+    public RsData modify(@Valid @RequestBody ModifyRequest modifyRequest, @PathVariable("id") Long id) {
+       Optional<Article> optionalArticle = this.articleService.findById(id);
+
+       if (optionalArticle.isEmpty()) return RsData.of(
+               "F-1",
+               "%d번 게시물은 존재하지 않습니다.".formatted(id),
+               null
+       );
+
+       // 회원 권한 체크 canModify();
+
+       RsData<Article> modifyRs = this.articleService.modify(optionalArticle.get(), modifyRequest.getSubject(), modifyRequest.getContent());
+
+       return RsData.of(
+               modifyRs.getResultCode(),
+               modifyRs.getMsg(),
+               new ModifyResponse(modifyRs.getData())
+       );
     }
 
 }
