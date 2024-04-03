@@ -3,9 +3,9 @@ package com.rest.proj.domain.article.controller;
 import com.rest.proj.domain.article.entity.Article;
 import com.rest.proj.domain.article.service.ArticleService;
 import com.rest.proj.global.RsData.RsData;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,4 +48,33 @@ public class ApiV1ArticleController {
                     null
         ));
     }
+
+    @Data
+    public static class WriteRequest {
+        @NotBlank
+        private String subject;
+        @NotBlank
+        private String content;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class WriteResponce {
+        private final Article article;
+    }
+
+    @PostMapping("")
+    public RsData<WriteResponce> write (@Valid @RequestBody WriteRequest writeRequest) {
+
+        RsData<Article> writeRs = this.articleService.create(writeRequest.getSubject(), writeRequest.getContent());
+
+        if(writeRs.isFail()) return (RsData) writeRs;
+
+        return RsData.of(
+                writeRs.getResultCode(),
+                writeRs.getMsg(),
+                new WriteResponce(writeRs.getData())
+        );
+    }
+
 }
