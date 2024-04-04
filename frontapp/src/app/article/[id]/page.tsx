@@ -3,10 +3,10 @@
 import { useParams } from "next/navigation";
 
 export default function ArticleDetail() {
-    const params = useParams();
-    console.log(params)
-    
+    const params = useParams();    
     return ( 
-        <>게시판 상세 {params.id}번</>
+        <>
+            <h1>게시판 상세 {params.id}번</h1>
+        </>
     );
 }
