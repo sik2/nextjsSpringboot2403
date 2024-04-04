@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react"
-import { json } from "stream/consumers";
 
 export default function Article () {
 
@@ -20,12 +19,30 @@ export default function Article () {
         .then(result => setArticles(result.data.articles))
     }
 
+    const handleDelete = async (id) => {
+        const response = await fetch(`http://localhost:8090/api/v1/articles/${id}`, {
+            method: 'DELETE'
+        })
+
+        if (response.ok) {
+            alert("ok")
+            fetchArticles()
+        } else {
+            alert("fail")
+        }
+    }
+
     return (
         <>  
            <ArticleForm fetchArticles={fetchArticles} />
            <ul>
-                번호 / 제목 / 생성일
-                {articles.map(row => <li key={row.id}>{row.id} / <Link href={`/article/${row.id}`}>{row.subject}</Link> / {row.createdDate}</li>)}
+                번호 / 제목 / 생성일 / 삭제
+                {articles.map(row => 
+                    <li key={row.id}>
+                        {row.id} / <Link href={`/article/${row.id}`}>{row.subject}</Link> / {row.createdDate}
+                        <button onClick={() => handleDelete(row.id)}>삭제</button>
+                    </li>          
+                )}
            </ul>
         </>
     )
