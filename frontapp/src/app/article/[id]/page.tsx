@@ -1,5 +1,6 @@
 'use client'
 
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,6 +22,7 @@ export default function ArticleDetail() {
             <div>{article.content}</div>
             <div>{article.createdDate}</div>
             <div>{article.modifiedDate}</div>
+            <Link href={`/article/${params.id}/edit`}>수정하기</Link>
         </>
     );
 }
