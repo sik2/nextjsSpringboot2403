@@ -2,6 +2,7 @@ package com.rest.proj.domain.article.service;
 
 import com.rest.proj.domain.article.entity.Article;
 import com.rest.proj.domain.article.repository.ArticleRepository;
+import com.rest.proj.domain.member.entity.Member;
 import com.rest.proj.global.RsData.RsData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,9 @@ public class ArticleService {
     }
 
     @Transactional
-    public RsData<Article> create(String subject, String content) {
+    public RsData<Article> create(Member member, String subject, String content) {
         Article article = Article.builder()
+                .author(member)
                 .subject(subject)
                 .content(content)
                 .build();

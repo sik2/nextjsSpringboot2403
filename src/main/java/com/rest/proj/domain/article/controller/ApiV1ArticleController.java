@@ -2,6 +2,7 @@ package com.rest.proj.domain.article.controller;
 
 import com.rest.proj.domain.article.entity.Article;
 import com.rest.proj.domain.article.service.ArticleService;
+import com.rest.proj.domain.member.entity.Member;
 import com.rest.proj.global.RsData.RsData;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -67,7 +68,7 @@ public class ApiV1ArticleController {
     @PostMapping("")
     public RsData<WriteResponse> write (@Valid @RequestBody WriteRequest writeRequest) {
 
-        RsData<Article> writeRs = this.articleService.create(writeRequest.getSubject(), writeRequest.getContent());
+        RsData<Article> writeRs = this.articleService.create(null, writeRequest.getSubject(), writeRequest.getContent());
 
         if(writeRs.isFail()) return (RsData) writeRs;
 
