@@ -1,5 +1,6 @@
 package com.rest.proj.global.jwt;
 
+import com.rest.proj.domain.member.entity.Member;
 import com.rest.proj.global.util.Util;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -30,7 +32,12 @@ public class JwtProvider {
         return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
     }
 
-    public String genToken (Map<String, Object> claims, int seconds) {
+    public String genToken (Member member, int seconds) {
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("id", member.getId());
+        claims.put("username", member.getUsername());
+
         long now = new Date().getTime();
         Date accessTokenExpiresIn = new Date(now + 1000L * seconds);
 
