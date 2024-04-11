@@ -55,4 +55,9 @@ public class ApiV1memberController {
         return RsData.of(authAndMakeTokensRs.getResultCode(),authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
     }
 
+    @GetMapping("/me")
+    public String me () {
+        return "내 정보";
+    }
+
 }
