@@ -1,5 +1,6 @@
 'use client'
 
+import api from "@/app/utils/api";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -10,9 +11,11 @@ export default function ArticleDetail() {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8090/api/v1/articles/${params.id}`)
-        .then(result => result.json())
-        .then(result => setArticle(result.data.article))
+        api.get(`/articles/${params.id}`)
+        .then(response => setArticle(response.data.data.article))
+        .catch (err => {
+            console.log(err)
+        })
     }, [])
 
     return ( 

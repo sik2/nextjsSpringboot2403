@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react"
+import api from "../utils/api";
 
 export default function Article () {
 
@@ -14,22 +15,17 @@ export default function Article () {
 
 
     const fetchArticles = () => {
-        fetch("http://localhost:8090/api/v1/articles")
-        .then(result => result.json())
-        .then(result => setArticles(result.data.articles))
+        api.get("/articles")
+        .then(
+            response => setArticles(response.data.data.articles)
+        )
+        .catch (err => {
+            console.log(err)
+        })
     }
 
     const handleDelete = async (id) => {
-        const response = await fetch(`http://localhost:8090/api/v1/articles/${id}`, {
-            method: 'DELETE'
-        })
-
-        if (response.ok) {
-            alert("ok")
-            fetchArticles()
-        } else {
-            alert("fail")
-        }
+        await api.delete(`/articles/${id}`)
     }
 
     return (
@@ -55,26 +51,20 @@ function ArticleForm ({fetchArticles}) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("http://localhost:8090/api/v1/articles", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' 
-            },
-            body: JSON.stringify(article)
-        })
 
-        if (response.ok) {
-            alert("ok")
-            fetchArticles()
-        } else {
-            alert("fail")
-        }
+        await api.post("/articles", article)
+        .then(function (response) {
+            fetchArticles();
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
     }
 
     const handleChange = (e) => {
         const {name, value} = e.target;
         setArticle({...article, [name]: value})
-        // console.log({...article, [name]: value})
     }
 
     return (
