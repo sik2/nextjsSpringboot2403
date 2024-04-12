@@ -1,14 +1,24 @@
 'use client'
 
 import api from "@/app/utils/api";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ArticleEdit () {
     const params = useParams();
     const [article, setArticle] = useState({subject: '', content: ''});
 
+    const router = useRouter()
+
     useEffect(() => {
+        api.get("/members/me")
+        .then(response => console.log(response))
+        .catch((err) => {
+            console.log(err)    
+            router.push("/member/login")    
+        })
+
+
         fetchArticle()
     }, [])
 
@@ -25,10 +35,10 @@ export default function ArticleEdit () {
         await api.patch(`/articles/${params.id}`, article)
         .then(function (response) {
             console.log(response);
-          })
-          .catch(function (error) {
+        })
+        .catch(function (error) {
             console.log(error);
-          });
+        });
     }
 
     const handleChange = (e) => {

@@ -48,9 +48,21 @@ public class ApiV1memberController {
         return RsData.of(authAndMakeTokensRs.getResultCode(),authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
     }
 
+    @Getter
+    @AllArgsConstructor
+    public static class MeResponseBody {
+        private final MemberDto memberDto;
+    }
+
     @GetMapping("/me")
-    public String me () {
-        return "내 정보";
+    public RsData<MeResponseBody> me () {
+        Member member = rq.getMember();
+
+        return RsData.of(
+                "200",
+                "내 정보 조회 성공",
+                new MeResponseBody(new MemberDto(member))
+        );
     }
 
     @PostMapping("/logout")
