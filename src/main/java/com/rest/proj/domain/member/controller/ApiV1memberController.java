@@ -4,6 +4,7 @@ import com.rest.proj.domain.member.dto.MemberDto;
 import com.rest.proj.domain.member.entity.Member;
 import com.rest.proj.domain.member.service.MemberService;
 import com.rest.proj.global.RsData.RsData;
+import com.rest.proj.global.rq.Rq;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ApiV1memberController {
     private final MemberService memberService;
-    private final HttpServletResponse resp;
+    private final Rq rq;
 
     @Getter
     public static class LoginRequestBody {
@@ -41,8 +42,8 @@ public class ApiV1memberController {
         RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.authAndMakeTokens(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
         // 쿠키에 accessToken, refreshToken 토큰 넣기
-        _addHeaderCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
-        _addHeaderCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
+        rq.setCrossDomainCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
+        rq.setCrossDomainCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
 
         return RsData.of(authAndMakeTokensRs.getResultCode(),authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
     }
@@ -52,15 +53,5 @@ public class ApiV1memberController {
         return "내 정보";
     }
 
-    private void _addHeaderCookie(String tokenName, String token) {
-        ResponseCookie cookie = ResponseCookie.from(tokenName, token)
-                .path("/")
-                .sameSite("None")
-                .secure(true)
-                .httpOnly(true)
-                .build();
-
-        resp.addHeader("Set-Cookie", cookie.toString());
-    }
 
 }
