@@ -53,5 +53,12 @@ public class ApiV1memberController {
         return "내 정보";
     }
 
+    @PostMapping("/logout")
+    public RsData<Void> logout() {
+        rq.removeCrossDomainCookie("accessToken");
+        rq.removeCrossDomainCookie("refreshToken");
+        
+        return RsData.of("200", "로그아웃 성공");
+    }
 
 }

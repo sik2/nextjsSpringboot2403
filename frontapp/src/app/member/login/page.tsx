@@ -33,6 +33,19 @@ export default function Login () {
         console.log({...user, [name]: value})
     }
 
+    const handleLogout = async () => {
+        const response = await fetch("http://localhost:8090/api/v1/members/logout", {
+            method: 'POST',
+            credentials: 'include', // 핵심 변경점
+        })
+
+        if (response.ok) {
+            alert("ok")
+        } else {
+            alert("fail")
+        }
+    }
+
     return (
         <>
             <h3>로그인 폼</h3>
@@ -41,6 +54,7 @@ export default function Login () {
                 <input type="password" name="password" onChange={handleChange} />
                 <button type="submit">등록</button>
             </form>
+            <button onClick={handleLogout}>로그아웃</button>
         </>
     )
  }
