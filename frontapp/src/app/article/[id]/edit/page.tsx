@@ -6,28 +6,34 @@ import { useEffect, useState } from "react";
 
 export default function ArticleEdit () {
     const params = useParams();
+
+    const [isLoding, setIsLoding] = useState(false);
     const [article, setArticle] = useState({subject: '', content: ''});
 
     const router = useRouter()
 
     useEffect(() => {
-        api.get("/members/me")
-        .then(response => console.log(response))
+        fetchArticle()
+    }, [])
+
+    const fetchArticle = async () => {
+        await api.get("/members/me")
+        .then(response => {console.log(response)})
         .catch((err) => {
             console.log(err)    
             router.push("/member/login")    
         })
 
-
-        fetchArticle()
-    }, [])
-
-    const fetchArticle = () => {
-        api.get(`/articles/${params.id}`)
-        .then(response => setArticle(response.data.data.article))
+        await api.get(`/articles/${params.id}`)
+        .then(response => {
+            setArticle(response.data.data.article)
+            setIsLoding(true);
+        })
         .catch (err => {
             console.log(err)
         })
+        
+
     }
 
     const handleSubmit = async (e) => {
@@ -48,13 +54,20 @@ export default function ArticleEdit () {
 
 
     return (
-        <>
-            <h1>수정페이지</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="subject" value={article.subject} onChange={handleChange} />
-                <input type="text" name="content" value={article.content} onChange={handleChange} />
-                <button type="submit">수정</button>
-            </form>
+        <>        
+        {
+            isLoding ? 
+            <>
+                <h1>수정페이지</h1>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" name="subject" value={article.subject} onChange={handleChange} />
+                    <input type="text" name="content" value={article.content} onChange={handleChange} />
+                    <button type="submit">수정</button>
+                </form>
+            </>
+            :
+            <></>
+        }
         </>
     );
 }
