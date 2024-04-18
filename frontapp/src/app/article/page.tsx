@@ -32,10 +32,10 @@ export default function Article () {
         <>  
            <ArticleForm fetchArticles={fetchArticles} />
            <ul>
-                번호 / 제목 / 생성일 / 삭제
+                번호 / 제목 / 작성자 / 생성일 / 삭제
                 {articles.map(row => 
                     <li key={row.id}>
-                        {row.id} / <Link href={`/article/${row.id}`}>{row.subject}</Link> / {row.createdDate}
+                        {row.id} / <Link href={`/article/${row.id}`}>{row.subject}</Link> / {row.author} / {row.createdDate}
                         <button onClick={() => handleDelete(row.id)}>삭제</button>
                     </li>          
                 )}

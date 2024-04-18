@@ -8,7 +8,7 @@ export default function About() {
 
     useEffect(() => {
         api.get("/members/me")
-        .then(response => setMember(response.data.data.memberDto))
+        .then(response => setMember(response.data.data.member))
     },[])
     
 
