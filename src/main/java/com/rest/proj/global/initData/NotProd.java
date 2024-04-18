@@ -19,15 +19,15 @@ public class NotProd {
             // 회원 3명 추가
             Member user1 = memberService.join("user1", password, "test@test.com");
             Member user2 = memberService.join("user2", password, "test@test.com");
-            Member admin  = memberService.join("admin", password, "admin@test.com");
+            Member admin = memberService.join("admin", password, "admin@test.com");
 
 
             // 작성자 회원 추가
-            articleService.create(user1,"제목 1", "내용 1");
-            articleService.create(user1,"제목 2", "내용 2");
-            articleService.create(user2,"제목 3", "내용 3");
-            articleService.create(user2,"제목 4", "내용 4");
-            articleService.create(admin,"제목 5", "내용 5");
+            articleService.create(user1, "제목 1", "내용 1");
+            articleService.create(user1, "제목 2", "내용 2");
+            articleService.create(user2, "제목 3", "내용 3");
+            articleService.create(user2, "제목 4", "내용 4");
+            articleService.create(admin, "제목 5", "내용 5");
         };
     }
 }

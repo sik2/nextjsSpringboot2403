@@ -15,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+
     public List<Article> getList() {
         return this.articleRepository.findAll();
     }
@@ -55,6 +56,7 @@ public class ArticleService {
                 article
         );
     }
+
     public RsData<Article> deleteById(Long id) {
         articleRepository.deleteById(id);
 

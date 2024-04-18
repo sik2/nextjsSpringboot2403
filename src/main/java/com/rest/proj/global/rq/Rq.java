@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
-import javax.sound.midi.MetaMessage;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -58,7 +57,7 @@ public class Rq {
     }
 
 
-    public Member getMember () {
+    public Member getMember() {
         if (isLogout()) return null;
 
         if (member == null) {
@@ -68,7 +67,7 @@ public class Rq {
         return member;
     }
 
-    public void setLogin (SecurityUser securityUser) {
+    public void setLogin(SecurityUser securityUser) {
         SecurityContextHolder.getContext().setAuthentication(securityUser.genAuthentication());
     }
 

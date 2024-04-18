@@ -16,6 +16,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class ApiSecurityConfig {
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
+
     @Bean
     SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
@@ -24,8 +25,8 @@ public class ApiSecurityConfig {
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/api/*/articles").permitAll()
                                 .requestMatchers("/api/*/articles/*").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/api/*/members/login").permitAll() // 로그인은 누구나 가능, post 요청만 허용
-                                .requestMatchers(HttpMethod.POST,"/api/*/members/logout").permitAll() // 로그아웃은 누구나 가능
+                                .requestMatchers(HttpMethod.POST, "/api/*/members/login").permitAll() // 로그인은 누구나 가능, post 요청만 허용
+                                .requestMatchers(HttpMethod.POST, "/api/*/members/logout").permitAll() // 로그아웃은 누구나 가능
                                 .anyRequest().authenticated()
                 )
                 .csrf(

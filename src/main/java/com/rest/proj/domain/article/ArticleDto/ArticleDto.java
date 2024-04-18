@@ -12,7 +12,7 @@ public class ArticleDto {
     private String author;
     private LocalDateTime createdDate;
 
-    public ArticleDto (Article article) {
+    public ArticleDto(Article article) {
         this.id = article.getId();
         this.subject = article.getSubject();
         this.author = article.getAuthor().getUsername();

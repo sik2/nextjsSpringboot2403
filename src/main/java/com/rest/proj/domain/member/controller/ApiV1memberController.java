@@ -5,14 +5,11 @@ import com.rest.proj.domain.member.entity.Member;
 import com.rest.proj.domain.member.service.MemberService;
 import com.rest.proj.global.RsData.RsData;
 import com.rest.proj.global.rq.Rq;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,7 +34,7 @@ public class ApiV1memberController {
     }
 
     @PostMapping("/login")
-    public RsData<LoginResponseBody> login (@Valid @RequestBody LoginRequestBody loginRequestBody) {
+    public RsData<LoginResponseBody> login(@Valid @RequestBody LoginRequestBody loginRequestBody) {
 
         RsData<MemberService.AuthAndMakeTokensResponseBody> authAndMakeTokensRs = memberService.authAndMakeTokens(loginRequestBody.getUsername(), loginRequestBody.getPassword());
 
@@ -45,7 +42,7 @@ public class ApiV1memberController {
         rq.setCrossDomainCookie("accessToken", authAndMakeTokensRs.getData().getAccessToken());
         rq.setCrossDomainCookie("refreshToken", authAndMakeTokensRs.getData().getRefreshToken());
 
-        return RsData.of(authAndMakeTokensRs.getResultCode(),authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
+        return RsData.of(authAndMakeTokensRs.getResultCode(), authAndMakeTokensRs.getMsg(), new LoginResponseBody(new MemberDto(authAndMakeTokensRs.getData().getMember())));
     }
 
     @Getter
@@ -55,7 +52,7 @@ public class ApiV1memberController {
     }
 
     @GetMapping("/me")
-    public RsData<MeResponseBody> me () {
+    public RsData<MeResponseBody> me() {
         Member member = rq.getMember();
 
         return RsData.of(
@@ -69,7 +66,7 @@ public class ApiV1memberController {
     public RsData<Void> logout() {
         rq.removeCrossDomainCookie("accessToken");
         rq.removeCrossDomainCookie("refreshToken");
-        
+
         return RsData.of("200", "로그아웃 성공");
     }
 
