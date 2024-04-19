@@ -1,6 +1,6 @@
 'use client'
 
-import api from '@/app/utils/api'
+import api from '@/util/api'
 import { useState } from 'react'
 
 export default function Login() {
