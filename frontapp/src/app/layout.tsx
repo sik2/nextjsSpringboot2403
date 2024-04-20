@@ -1,3 +1,4 @@
+import ReactQueryProviders from '@/utils/ReactQueryProviders'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
@@ -34,7 +35,7 @@ export default function RootLayout({
                         </li>
                     </ul>
                 </nav>
-                {children}
+                <ReactQueryProviders>{children}</ReactQueryProviders>
             </body>
         </html>
     )

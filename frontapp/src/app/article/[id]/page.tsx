@@ -1,6 +1,6 @@
 'use client'
 
-import api from '@/app/utils/api'
+import api from '@/utils/api'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
